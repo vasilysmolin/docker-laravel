@@ -1,0 +1,82 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+
+jobs:
+  app-make-lint:
+    name: CI
+    runs-on: ubuntu-latest
+    env:
+      DB_HOST: localhost
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      DB_CONNECTION: pgsql
+      REDIS_PORT: 6379
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: password
+          DB_CONNECTION: pgsql
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+      redis:
+        image: redis:6-alpine
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps port 6379 on service container to the host
+          - 6379:6379
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: zip, gmp, pdo_mysql, gd, pcov, curl, exif, json, fileinfo
+
+      - name: Setup project
+        run: make setup
+
+      - name: Check lint
+        run: make lint
+
+      - name: Check phpstan
+        run: make phpstan
+
+      - name: Run tests
+        run: make test-coverage
+
+#      - name: Run tests covarage
+#        uses: paambaati/codeclimate-action@v2.6.0
+#        env:
+#          CC_TEST_REPORTER_ID: ${{ secrets.CLIMAT_ID }}
+#        with:
+#          coverageCommand: make test-coverage
+#          coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
+#          debug: true
+
+

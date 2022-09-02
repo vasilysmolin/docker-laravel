@@ -1,0 +1,81 @@
+version: '3'
+
+services:
+
+  # PHP -----------------------------------------------
+  php:
+    build:
+      context: images/php
+      dockerfile: Dockerfile
+      args:
+        - ENV=${DOCKER_ENV}
+        - USER=${USER}
+        - UID=${UID}
+    container_name: ${BB_PHP_WORKDIR}
+    environment:
+      PHP_IDE_CONFIG: "serverName=Docker"
+    restart: always
+    working_dir: /var/www/${BB_PHP_WORKDIR}
+    volumes:
+      - .:/var/www/${BB_PHP_WORKDIR}
+    depends_on:
+      - database
+
+  # Nginx -----------------------------------------------
+  nginx:
+    build:
+      context: images/nginx
+      dockerfile: Dockerfile
+      args:
+        - DOMAIN=${DOMAIN}
+        - ENV=${APP_ENV}
+        - BACK_DIR=${BB_PHP_WORKDIR}
+    container_name: ${BB_NGINX_WORKDIR}
+    restart: always
+    ports:
+      - "${PORT_HTTP}:80"
+      - "${PORT_HTTPS}:443"
+    working_dir: /var/www/${BB_NGINX_WORKDIR}
+    volumes:
+      - .:/var/www/${BB_NGINX_WORKDIR}
+    depends_on:
+      - php
+
+  # Redis -------------------------------------------------
+  redis:
+    image: redis:6-alpine
+    container_name: ${BB_REDIS_WORKDIR}
+    restart: always
+    volumes:
+      - ./images/redis/redis.conf:/redis.conf
+    depends_on:
+      - php
+      - database
+    command: [ "redis-server", "/redis.conf" ]
+
+  # Database -------------------------------------------------
+  database:
+    build:
+      context: images/postgres
+      dockerfile: Dockerfile
+    container_name: ${BB_DATABASE_WORKDIR}
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  meilisearch:
+      image: getmeili/meilisearch:v0.23.1
+      restart: always
+      volumes:
+          - /data.ms:/data.ms
+      environment:
+          - MEILI_NO_ANALYTICS=true
+          - MEILI_NO_SENTRY=true
+#          - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
+      ports:
+          - "7700:7700"
