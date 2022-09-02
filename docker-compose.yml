@@ -11,6 +11,7 @@ services:
         - ENV=${DOCKER_ENV}
         - USER=${USER}
         - UID=${UID}
+        - BACK_DIR=${BB_PHP_WORKDIR}
     container_name: ${BB_PHP_WORKDIR}
     environment:
       PHP_IDE_CONFIG: "serverName=Docker"

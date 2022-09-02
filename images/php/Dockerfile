@@ -2,13 +2,14 @@ FROM composer:2 AS composer
 FROM php:8.1.1-fpm-alpine
 
 ARG DOMAIN
+ARG BACK_DIR
 ARG DOCKER_ENV
 ARG ENV
 ARG USER
 ARG UID
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-
+ENV BACK_DIR=${BACK_DIR}
 RUN set -xe \
     && apk add --no-cache \
     $PHPIZE_DEPS \
@@ -61,9 +62,13 @@ COPY /supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN adduser -G root -u $UID -h /home/$USER -S $USER
 
-USER $USER
+COPY /php-entrypoint.sh /php-entrypoint.sh
 
-#ENTRYPOINT ["sh", "/etc/php-entrypoint.sh"]
+RUN chmod +x /php-entrypoint.sh
+
+#ENTRYPOINT ["sh", "/php-entrypoint.sh"]
+
+USER $USER
 
 CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
