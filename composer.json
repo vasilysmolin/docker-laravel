@@ -43,7 +43,8 @@
         "spiti/smsclient": "1.1.0",
         "symfony/translation": "^v5.1.10",
         "tymon/jwt-auth": "dev-develop",
-        "vearutop/php-obscene-censor-rus": "^1.0"
+        "vearutop/php-obscene-censor-rus": "^1.0",
+        "vkcom/vk-php-sdk": "^5.101"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

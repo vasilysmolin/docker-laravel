@@ -4,7 +4,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1433e161c6fc40dc15b7/test_coverage)](https://codeclimate.com/github/vasilysmolin/user-parser/test_coverage)
 
 # About Project
-
+Парсер пользователей из ВК
 
 ## Требования
 
@@ -13,9 +13,10 @@
 * make >= 4
 
 ## Install and start project
-* `host write 127.0.0.1 tapigol.ru api.tapigol.ru hub.tapigol.ru jobs.tapigol.ru catalog.tapigol.ru`
+* `host write 127.0.0.1 user-parserl.ru `
+* `make setup`
 
-##№ для продакшена
+## для продакшена
 * `сертификаты в image/nginx/ssl закинуть`
 * `выставить среду production`
 
