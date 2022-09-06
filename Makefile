@@ -44,11 +44,7 @@ update:
 	docker-compose exec php php artisan optimize
 
 seeder:
-	docker-compose exec php php artisan db:seed --class="Database\Seeders\FoodDishesCategorySeeder"
-	docker-compose exec php php artisan db:seed --class="Database\Seeders\FoodCategoryRestaurantSeeder"
-	docker-compose exec php php artisan db:seed --class="Database\Seeders\JobsCategoryResumeSeeder"
-	docker-compose exec php php artisan db:seed --class="Database\Seeders\JobsCategoryVacancySeeder"
-	docker-compose exec php php artisan db:seed --class="Database\Seeders\ServiceCategorySeeder"
+	docker-compose exec php php artisan db:seed
 
 seeder-dev:
 	docker-compose exec php php artisan db:seed
@@ -63,6 +59,11 @@ setup:
 	composer install
 	cp -n .env.example .env|| true
 	php artisan key:gen --ansi
+	php artisan migrate --force
+	php artisan db:seed --force
+	php artisan optimize
+
+heroku-build:
 	php artisan migrate --force
 	php artisan db:seed --force
 	php artisan optimize

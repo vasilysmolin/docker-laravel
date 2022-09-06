@@ -16,7 +16,7 @@ class UsersController extends Controller
 
     public function show($id)
     {
-        return new UserResource(User::find($id));
+        return new UserResource(User::findOrFail($id));
     }
 
 }

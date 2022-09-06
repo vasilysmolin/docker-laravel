@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Events\UserSaveEvent;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use VK\Client\VKApiClient;
 
 class ParserVKUsersCommand extends Command
@@ -37,11 +38,6 @@ class ParserVKUsersCommand extends Command
             ]);
         collect($response)->each(fn($user) => event(new UserSaveEvent($user)));
 
-        return __('console.success_import');
-    }
-
-    protected function getStartTime()
-    {
-        return microtime(true);
+        Log::info(__('console.success_import'));
     }
 }

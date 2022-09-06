@@ -16,6 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'url' => env('APP_URL', ''),
     'vk_api' => env('API_VK', ''),
 
     /*

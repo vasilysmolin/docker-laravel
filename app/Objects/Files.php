@@ -36,14 +36,15 @@ class Files
      */
     public function getFilePath($modelPhoto): ?string
     {
+        if(isset($modelPhoto->name)) {
+            $path = $this->getOptimizeDirectoryS3($modelPhoto->name);
+            $url = Storage::disk('s3')->url($path . '_'
+                . 400 . 'x'
+                . 400 . '.' .
+                'jpg');
+        }
 
-        $path = $this->getOptimizeDirectoryS3($modelPhoto->name);
-        $url = Storage::url($path . '_'
-            . 400 . 'x'
-            . 400 . '.' .
-            'jpg');
-
-        return $url;
+        return $url ?? null;
     }
 
     /**
@@ -84,14 +85,14 @@ class Files
             $mineType = 'image/jpeg';
             $extension = 'jpg';
             $size = 999;
-            $path = $this->getPathS3($name);
+            $path = $this->getOptimizeDirectoryS3($name);
 
             foreach (self::$CROP as $resolution) {
                 $image = \Intervention\Image\Facades\Image::make($contents);
                 $filteredImage = $image
                     ->fit($resolution['width'], $resolution['height'])
                     ->encode('jpg', 100);
-                Storage::put(
+                Storage::disk('s3')->put(
                     $path . '_'
                     . $resolution['width'] . 'x'
                     . $resolution['height'] . '.' .
@@ -120,7 +121,7 @@ class Files
         $name = $this->generateFileName();
         $mineType = $file->getClientMimeType();
         $sizeFile = $file->getSize();
-        $path = $this->getPathS3($name);
+        $path = $this->getOptimizeDirectoryS3($name);
 
 
         foreach (self::$CROP as $resolution) {
@@ -128,7 +129,7 @@ class Files
             $filteredImage = $image
                 ->fit($resolution['width'], $resolution['height'])
                 ->encode('jpg', 100);
-            Storage::put(
+            Storage::disk('s3')->put(
                 $path . '_'
                 . $resolution['width'] . 'x'
                 . $resolution['height'] . '.' .
@@ -164,11 +165,6 @@ class Files
     private function generateFileName(?string $fileName = null): string
     {
         return md5(microtime() . random_int(0, 9999));
-    }
-
-    private function getPathS3(string $nameFile): string
-    {
-        return $this->getOptimizeDirectoryS3($nameFile);
     }
 
     protected function getOptimizeDirectoryS3($string): string
