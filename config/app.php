@@ -16,7 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'url' => env('APP_URL', ''),
+    'flysystem_driver' => env('FILESYSTEM_DRIVER', 'local'),
     'vk_api' => env('API_VK', ''),
 
     /*

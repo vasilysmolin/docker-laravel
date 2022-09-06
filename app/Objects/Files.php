@@ -34,7 +34,7 @@ class Files
     {
         if (isset($modelPhoto->name)) {
             $path = $this->getOptimizeDirectoryS3($modelPhoto->name);
-            $url = Storage::disk('s3')->url($path . '_'
+            $url = Storage::disk(config('app.flysystem_driver'))->url($path . '_'
                 . 400 . 'x'
                 . 400 . '.' .
                 'jpg');
@@ -82,7 +82,7 @@ class Files
                 $filteredImage = $image
                     ->fit($resolution['width'], $resolution['height'])
                     ->encode('jpg', 100);
-                Storage::disk('s3')->put(
+                Storage::disk(config('app.flysystem_driver'))->put(
                     $path . '_'
                     . $resolution['width'] . 'x'
                     . $resolution['height'] . '.' .
@@ -114,7 +114,7 @@ class Files
             $filteredImage = $image
                 ->fit($resolution['width'], $resolution['height'])
                 ->encode('jpg', 100);
-            Storage::disk('s3')->put(
+            Storage::disk(config('app.flysystem_driver'))->put(
                 $path . '_'
                 . $resolution['width'] . 'x'
                 . $resolution['height'] . '.' .
