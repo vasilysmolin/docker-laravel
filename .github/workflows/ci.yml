@@ -17,6 +17,7 @@ jobs:
       POSTGRES_PORT: 5432
       DB_CONNECTION: pgsql
       REDIS_PORT: 6379
+      REDIS_HOST: localhost
 
     # Service containers to run with `container-job`
     services:
