@@ -10,13 +10,12 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class UserSaveListener
 {
-
     public function handle(UserSaveEvent $event): void
     {
         $photo = !empty($event->user['photo_400_orig']) ? $event->user['photo_400_orig'] : null;
         $event->user['external_id'] = $event->user['id'];
         $user = User::where('external_id', $event->user['id'])->first();
-        if(!empty($user)){
+        if (!empty($user)) {
             $user->fill($event->user);
             $user->update();
         } else {
@@ -25,7 +24,7 @@ class UserSaveListener
             $user->save();
         }
 
-        if(!empty($photo)) {
+        if (!empty($photo)) {
             $files = resolve(Files::class);
             $files->saveByUrl($user, $photo);
         }

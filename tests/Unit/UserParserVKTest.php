@@ -9,9 +9,9 @@ use Tests\TestCase;
 class UserParserVKTest extends TestCase
 {
 
-    public function testUsersConsole()
+    public function testUsersConsole(): void
     {
         app()->bind(ApiUsersParserInterface::class, FakeHttpClient::class);
-        $this->artisan('parse-vk-users')->assertExitCode(0);
+        $this->artisan('parse-vk-users')->assertExitCode(0);  /** @phpstan-ignore-line */
     }
 }

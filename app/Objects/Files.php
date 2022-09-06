@@ -2,16 +2,16 @@
 
 namespace App\Objects;
 
+use App\Models\Image;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-
 class Files
 {
-
-    protected static $CROP = [
+    protected static array $CROP = [
         [
             'width' => 180,
             'height' => 180,
@@ -30,13 +30,9 @@ class Files
         ],
     ];
 
-    /**
-     * @param $modelPhoto
-     * @return string|null
-     */
-    public function getFilePath($modelPhoto): ?string
+    public function getFilePath(?Image $modelPhoto): ?string
     {
-        if(isset($modelPhoto->name)) {
+        if (isset($modelPhoto->name)) {
             $path = $this->getOptimizeDirectoryS3($modelPhoto->name);
             $url = Storage::disk('s3')->url($path . '_'
                 . 400 . 'x'
@@ -47,17 +43,13 @@ class Files
         return $url ?? null;
     }
 
-    /**
-     * @param $model
-     * @param array|null $files
-     * @throws \Exception
-     */
-    public function save($model, ?array $files): void
+    public function save(User $model, ?array $files): void
     {
 
         if (isset($files) && count($files) > 0) {
             foreach ($files as $file) {
                 $dataFile = $this->preparationFileS3($file);
+                /** @phpstan-ignore-line */
                 $model->image()->create([
                     'mimeType' => $dataFile['mineType'],
                     'extension' => $dataFile['extension'],
@@ -69,7 +61,7 @@ class Files
         }
     }
 
-    public function saveByUrl($model, $url): void
+    public function saveByUrl(User $model, string $url): void
     {
 
         $arrContextOptions = array(
@@ -109,11 +101,6 @@ class Files
         }
     }
 
-    /**
-     * @param UploadedFile $file
-     * @return array
-     * @throws \Exception
-     */
     private function preparationFileS3(
         UploadedFile $file
     ): array {
@@ -147,27 +134,23 @@ class Files
         ];
     }
 
-    private function getFileType(string $nameWithType): string
+    private function getFileType(string $nameWithType): mixed
     {
         $explodeAvatar = explode('.', $nameWithType);
 
-        if (!is_array($explodeAvatar) && count($explodeAvatar) < 1) {
+        if (!is_array($explodeAvatar)) {
+            /** @phpstan-ignore-line */
             throw new ModelNotFoundException(__('errors.not_found'), 404);
         }
         return $explodeAvatar[1];
     }
 
-    /**
-     * @param string|null $fileName
-     * @return string
-     * @throws \Exception
-     */
     private function generateFileName(?string $fileName = null): string
     {
         return md5(microtime() . random_int(0, 9999));
     }
 
-    protected function getOptimizeDirectoryS3($string): string
+    protected function getOptimizeDirectoryS3(string $string): string
     {
         $dir = '';
         if (mb_strlen($string, 'utf-8') > 4) {
@@ -176,5 +159,4 @@ class Files
 
         return $dir . $string . '/' . $string;
     }
-
 }

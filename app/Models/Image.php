@@ -26,10 +26,7 @@ class Image extends Model
         'sort',
     ];
 
-    /**
-     * Get the parent imageable model.
-     */
-    public function imageable()
+    public function imageable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
     }

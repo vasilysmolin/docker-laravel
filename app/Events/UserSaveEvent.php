@@ -16,7 +16,7 @@ class UserSaveEvent
     use InteractsWithSockets;
     use SerializesModels;
 
-    public $user;
+    public array $user;
 
     public function __construct(array $user)
     {

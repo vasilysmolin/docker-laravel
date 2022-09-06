@@ -8,15 +8,13 @@ use App\Models\User;
 
 class UsersController extends Controller
 {
-
-    public function index()
+    public function index(): UsersResource
     {
         return new UsersResource(User::all());
     }
 
-    public function show($id)
+    public function show(int $id): UserResource
     {
         return new UserResource(User::findOrFail($id));
     }
-
 }

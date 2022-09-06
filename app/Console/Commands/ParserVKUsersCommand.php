@@ -31,14 +31,15 @@ class ParserVKUsersCommand extends Command
     public function handle()
     {
         $apiUsersParser = resolve(ApiUsersParserInterface::class);
+        /** @phpstan-ignore-next-line */
         $response = $apiUsersParser->users()
             ->get(config('app.vk_api'), [
-                'user_ids' => range(1,200),
+                'user_ids' => range(1, 200),
                 'fields' => ['photo_400_orig','nickname'],
             ]);
-        collect($response)->each(fn($user) => event(new UserSaveEvent($user)));
-
-        Log::info(__('console.success_import'));
+        if (is_array($response)) {
+            collect($response)->each(fn($user) => event(new UserSaveEvent($user)));
+        }
         return 0;
     }
 }

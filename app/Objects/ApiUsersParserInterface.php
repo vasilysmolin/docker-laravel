@@ -4,7 +4,7 @@ namespace App\Objects;
 
 interface ApiUsersParserInterface
 {
-    public function users();
+    public function users(): object;
 
-    public function get();
+    public function get(): array;
 }

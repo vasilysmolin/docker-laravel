@@ -22,7 +22,7 @@ class UsersTest extends TestCase
         Storage::fake('s3');
     }
 
-    public function testUsersIndex()
+    public function testUsersIndex(): void
     {
         User::factory(1)->create();
         $response = $this->get(route('users.index'));
@@ -38,11 +38,11 @@ class UsersTest extends TestCase
         ]);
     }
 
-    public function testUsersShow()
+    public function testUsersShow(): void
     {
         $user = User::factory(1)->create()->first();
 
-        $response = $this->get(route('users.show', [$user->getKey()]));
+        $response = $this->get(route('users.show', [$user->getKey()]));  /** @phpstan-ignore-line */
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -54,7 +54,7 @@ class UsersTest extends TestCase
             ]);
     }
 
-    public function testUsersShow404()
+    public function testUsersShow404(): void
     {
         $response = $this->get(route('users.show', 1));
         $response->assertStatus(404);

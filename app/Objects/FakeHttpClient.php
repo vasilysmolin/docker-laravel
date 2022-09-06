@@ -2,16 +2,15 @@
 
 namespace App\Objects;
 
-
 class FakeHttpClient
 {
-
-    public function users() {
+    public function users(): object
+    {
         return $this;
     }
 
-    public function get() {
+    public function get(): array
+    {
         return [];
     }
-
 }
