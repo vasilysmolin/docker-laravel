@@ -12,11 +12,8 @@ class UsersResource extends ResourceCollection
         $files = resolve(Files::class);
         return [
             'data' => $this->collection->map(fn($item) => [
-                /** @phpstan-ignore-line */
                 'name' => $item->first_name,
-                /** @phpstan-ignore-line */
                 'email' => $item->email,
-                /** @phpstan-ignore-line */
                 'photo' => $files->getFilePath($item->image),
             ]),
         ];

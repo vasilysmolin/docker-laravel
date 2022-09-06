@@ -13,11 +13,8 @@ class UserResource extends JsonResource
         $files = resolve(Files::class);
 
         return [
-            /** @phpstan-ignore-line */
             'name' => $this->first_name,
-            /** @phpstan-ignore-line */
             'email' => $this->email,
-            /** @phpstan-ignore-line */
             'photo' => $files->getFilePath($this->image),
         ];
     }

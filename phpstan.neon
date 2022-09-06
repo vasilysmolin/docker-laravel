@@ -10,6 +10,11 @@ parameters:
     - routes
     - tests
 
+  excludePaths:
+      - app/Objects/Files.php
+      - app/Http/Resources/UserResource.php
+      - app/Http/Resources/UsersResource.php
+
   checkMissingIterableValueType: false
   checkModelProperties: true
   checkOctaneCompatibility: true

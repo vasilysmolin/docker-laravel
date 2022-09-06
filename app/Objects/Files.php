@@ -49,12 +49,10 @@ class Files
         if (isset($files) && count($files) > 0) {
             foreach ($files as $file) {
                 $dataFile = $this->preparationFileS3($file);
-                /** @phpstan-ignore-line */
                 $model->image()->create([
                     'mimeType' => $dataFile['mineType'],
                     'extension' => $dataFile['extension'],
                     'name' => $dataFile['name'],
-                    'uniqueValue' => $dataFile['name'],
                     'size' => $dataFile['size'],
                 ]);
             }
@@ -134,7 +132,7 @@ class Files
         ];
     }
 
-    private function getFileType(string $nameWithType): mixed
+    private function getFileType(string $nameWithType): string
     {
         $explodeAvatar = explode('.', $nameWithType);
 
