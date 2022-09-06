@@ -25,11 +25,6 @@ analyse:
 config-clear:
 	php artisan config:clear
 
-env-prepare:
-	cp -n .env.example .env || true
-
-key:
-	php artisan key:generate
 
 ide-helper:
 	php artisan ide-helper:eloquent
@@ -39,7 +34,7 @@ ide-helper:
 
 update:
 	git pull
-	docker-compose exec php composer install --no-interaction --ansi --no-suggest
+	docker-compose exec php composer install
 	docker-compose exec php php artisan migrate --force
 	docker-compose exec php php artisan optimize
 
@@ -49,19 +44,22 @@ seeder:
 seeder-dev:
 	docker-compose exec php php artisan db:seed
 
+setup: env-prepare database-prepare install key
+	npm run dev
 
-heroku-build:
-	php artisan migrate --force
-	php artisan db:seed --force
-	php artisan optimize
+env-prepare:
+	cp -n .env.example .env || true
 
-setup:
-	composer install
-	cp -n .env.example .env|| true
-	php artisan key:gen --ansi
-	php artisan migrate --force
-	php artisan db:seed --force
-	php artisan optimize
+database-prepare:
+	docker-compose exec php php artisan migrate:fresh --seed
+
+key:
+	docker-compose exec php php artisan key:gen --ansi
+
+install: install-app
+
+install-app:
+	docker-compose exec php composer install
 
 heroku-build:
 	php artisan migrate --force
