@@ -2,7 +2,6 @@
 
 namespace App\Objects;
 
-
 interface ApiUsersParserInterface
 {
     public function users();

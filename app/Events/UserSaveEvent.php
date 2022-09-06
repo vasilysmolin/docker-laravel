@@ -12,7 +12,9 @@ use Illuminate\Queue\SerializesModels;
 
 class UserSaveEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public $user;
 
@@ -20,5 +22,4 @@ class UserSaveEvent
     {
         $this->user = $user;
     }
-
 }
