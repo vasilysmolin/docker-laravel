@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Objects\ApiUsersParserInterface;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use VK\Client\VKApiClient;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->bind(ApiUsersParserInterface::class, VKApiClient::class);
         URL::forceScheme('https');
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Events\UserSaveEvent;
+use App\Objects\ApiUsersParserInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use VK\Client\VKApiClient;
 
 class ParserVKUsersCommand extends Command
 {
@@ -30,14 +30,15 @@ class ParserVKUsersCommand extends Command
      */
     public function handle()
     {
-        $vk = new VKApiClient();
-        $response = $vk->users()
+        $apiUsersParser = resolve(ApiUsersParserInterface::class);
+        $response = $apiUsersParser->users()
             ->get(config('app.vk_api'), [
-                'user_ids' => range(1,3),
+                'user_ids' => range(1,200),
                 'fields' => ['photo_400_orig','nickname'],
             ]);
         collect($response)->each(fn($user) => event(new UserSaveEvent($user)));
 
         Log::info(__('console.success_import'));
+        return 0;
     }
 }

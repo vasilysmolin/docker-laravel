@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 /**
@@ -14,6 +15,12 @@ use Tests\TestCase;
 class UsersTest extends TestCase
 {
     use DatabaseTransactions;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Storage::fake('s3');
+    }
 
     public function testUsersIndex()
     {
