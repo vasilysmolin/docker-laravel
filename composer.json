@@ -36,6 +36,7 @@
         "spatie/eloquent-sortable": "^4.0.1",
         "spatie/enum": "3.*",
         "spatie/laravel-backup": "^8.1.2",
+        "spatie/laravel-medialibrary": "^10.0.0",
         "spatie/laravel-permission": "^5.1",
         "spatie/laravel-sluggable": "^3.4.0",
         "spatie/laravel-tags": "^4.3.2",
