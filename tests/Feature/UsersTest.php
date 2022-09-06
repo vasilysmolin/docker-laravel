@@ -19,13 +19,13 @@ class UsersTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Storage::fake('s3');
     }
 
     public function testUsersIndex(): void
     {
         User::factory(1)->create();
         $response = $this->get(route('users.index'));
+        var_dump($response->json());
         $response->assertStatus(200)
             ->assertJsonStructure([
             'data' => [
