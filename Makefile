@@ -44,7 +44,7 @@ seeder:
 seeder-dev:
 	docker-compose exec php php artisan db:seed
 
-setup: env-prepare database-prepare install key
+setup: env-prepare database-prepare install key build
 	npm run dev
 
 env-prepare:
@@ -55,6 +55,9 @@ database-prepare:
 
 key:
 	docker-compose exec php php artisan key:gen --ansi
+
+build:
+	docker-compose up -d --build
 
 install: install-app
 
