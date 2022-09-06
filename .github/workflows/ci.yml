@@ -60,7 +60,7 @@ jobs:
           extensions: zip, gmp, pdo_mysql, gd, pcov, curl, exif, json, fileinfo
 
       - name: Setup project
-        run: make setup
+        run: make setup-ci
 
       - name: Check lint
         run: make lint

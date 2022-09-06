@@ -66,5 +66,13 @@ heroku-build:
 	php artisan db:seed --force
 	php artisan optimize
 
+setup-ci:
+	composer install
+	cp -n .env.example .env|| true
+	php artisan key:gen --ansi
+	php artisan migrate --force
+	php artisan db:seed --force
+	php artisan optimize
+
 db-import-from-backup:
 	docker-compose exec -T database psql -d tapigo-database -U postgres  < data
