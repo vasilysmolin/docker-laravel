@@ -25,7 +25,6 @@ class UsersTest extends TestCase
     {
         User::factory(1)->create();
         $response = $this->get(route('users.index'));
-        var_dump($response->json());
         $response->assertStatus(200)
             ->assertJsonStructure([
             'data' => [

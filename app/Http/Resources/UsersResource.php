@@ -12,7 +12,7 @@ class UsersResource extends ResourceCollection
         $files = resolve(Files::class);
         return [
             'data' => $this->collection->map(fn($item) => [
-                'name' => $item->first_name,
+                'name' => "{$item->first_name} {$item->last_name}",
                 'email' => $item->email,
                 'photo' => $files->getFilePath($item->image),
             ]),
