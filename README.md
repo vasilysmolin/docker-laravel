@@ -4,7 +4,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1433e161c6fc40dc15b7/test_coverage)](https://codeclimate.com/github/vasilysmolin/user-parser/test_coverage)
 
 # About Project
-Парсер пользователей из ВК
+Парсер пользователей из VK
 
 ## Требования
 
