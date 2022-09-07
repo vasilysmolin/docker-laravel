@@ -39,6 +39,7 @@ services:
     working_dir: /var/www/${BB_NGINX_WORKDIR}
     volumes:
       - .:/var/www/${BB_NGINX_WORKDIR}
+      - .:/var/www/${BB_PHP_WORKDIR}
     depends_on:
       - php
 
