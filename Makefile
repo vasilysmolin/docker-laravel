@@ -72,11 +72,11 @@ heroku-build:
 	php artisan optimize
 
 setup-ci:
-	composer install --dev
+	composer install
 	cp -n .env.example .env|| true
 	php artisan key:gen --ansi
 	php artisan migrate --force
-	php artisan db:seed --force
+	#php artisan db:seed --force
 	php artisan optimize
 
 db-import-from-backup:
