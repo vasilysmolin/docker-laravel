@@ -34,7 +34,7 @@ class ParserVKUsersCommand extends Command
         /** @phpstan-ignore-next-line */
         $response = $apiUsersParser->users()
             ->get(config('app.vk_api'), [
-                'user_ids' => range(1, 100),
+                'user_ids' => range(1, 50),
                 'fields' => ['photo_400_orig','nickname'],
             ]);
         if (is_array($response)) {

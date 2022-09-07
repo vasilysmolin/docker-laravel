@@ -10,12 +10,11 @@ class UserResource extends JsonResource
 {
     public function toArray($request)
     {
-        $files = resolve(Files::class);
 
         return [
             'name' => $this->first_name,
             'email' => $this->email,
-            'photo' => $files->getFilePath($this->image),
+            'photo' => !empty($this->getFirstMedia('image')) ? $this->getFirstMedia('image')->getUrl() : null,
         ];
     }
 }
