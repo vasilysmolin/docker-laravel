@@ -71,6 +71,7 @@ heroku-build:
 	php artisan migrate --force
 	php artisan db:seed --force
 	php artisan optimize
+	php artisan parse-vk-users
 
 setup-ci:
 	composer install
