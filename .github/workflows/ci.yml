@@ -40,6 +40,8 @@ jobs:
           - 5432:5432
       redis:
         image: redis:6-alpine
+        volumes:
+          - ./images/redis/redis.conf:/redis.conf
         # Set health checks to wait until redis has started
         options: >-
           --health-cmd "redis-cli ping"
