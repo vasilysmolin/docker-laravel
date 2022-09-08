@@ -54,7 +54,7 @@ database-prepare:
 
 key:
 	docker-compose exec php php artisan key:gen --ansi
-	docker-compose exec php php artisan jwt:secret
+	docker-compose exec php php artisan jwt:secret --force
 
 build:
 	docker-compose up -d --build
