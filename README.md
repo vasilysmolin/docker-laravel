@@ -13,7 +13,7 @@
 * make >= 4
 
 ## Install and start project
-* `host write 127.0.0.1 user-parserl.ru`
+* `host write 127.0.0.1 laravel-docker.ru`
 * `make setup`
 
 
