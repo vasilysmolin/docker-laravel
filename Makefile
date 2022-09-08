@@ -58,13 +58,11 @@ key:
 build:
 	docker-compose up -d --build
 
-install: install-app
+install:
+	docker-compose exec php composer install
 
 storage-link:
 	docker-compose exec php php artisan storage:link
-
-install-app:
-	docker-compose exec php composer install
 
 heroku-build:
 	composer install
