@@ -3,9 +3,7 @@ FROM php:8.1.1-fpm-alpine
 
 ARG DOMAIN
 ARG BACK_DIR
-ARG DOCKER_ENV
 ARG ENV
-ARG USER
 ARG UID
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
@@ -60,7 +58,7 @@ COPY /php-entrypoint.sh /etc/php-entrypoint.sh
 
 COPY /supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN adduser -G root -u $UID -h /home/$USER -S $USER
+RUN adduser -G root -u $UID -h /home/$UID -S $UID
 
 COPY /php-entrypoint.sh /php-entrypoint.sh
 
@@ -68,7 +66,7 @@ RUN chmod +x /php-entrypoint.sh
 
 #ENTRYPOINT ["sh", "/php-entrypoint.sh"]
 
-USER $USER
+USER $UID
 
 CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 

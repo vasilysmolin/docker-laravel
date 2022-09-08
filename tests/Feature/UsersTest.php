@@ -55,7 +55,7 @@ class UsersTest extends TestCase
 
     public function testUsersShow404(): void
     {
-        $response = $this->get(route('users.show', 1));
+        $response = $this->get(route('users.show', 0));
         $response->assertStatus(404);
     }
 

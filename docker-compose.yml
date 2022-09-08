@@ -8,8 +8,6 @@ services:
       context: images/php
       dockerfile: Dockerfile
       args:
-        - ENV=${DOCKER_ENV}
-        - USER=${USER}
         - UID=${UID}
         - BACK_DIR=${BB_PHP_WORKDIR}
     container_name: ${BB_PHP_WORKDIR}
@@ -74,7 +72,7 @@ services:
       image: getmeili/meilisearch:v0.23.1
       restart: always
       volumes:
-          - /data.ms:/data.ms
+          - ./data.ms:/data.ms
       environment:
           - MEILI_NO_ANALYTICS=true
           - MEILI_NO_SENTRY=true
