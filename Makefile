@@ -44,7 +44,7 @@ seeder:
 seeder-dev:
 	docker-compose exec php php artisan db:seed
 
-setup: env-prepare build key database-prepare install storage-link
+setup: env-prepare build install key database-prepare storage-link
 
 env-prepare:
 	cp -n .env.example .env || true
