@@ -59,17 +59,17 @@ jobs:
         run: make setup-ci
 
       - name: Check lint
-        run: make lint
+        run: make lint-ci
 
       - name: Check phpstan
-        run: make phpstan
+        run: make phpstan-ci
 
       - name: Run tests covarage
         uses: paambaati/codeclimate-action@v2.6.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CLIMAT_ID }}
         with:
-          coverageCommand: make test-coverage
+          coverageCommand: make test-coverage-ci
           coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
           debug: true
 
