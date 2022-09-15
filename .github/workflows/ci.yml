@@ -57,6 +57,9 @@ jobs:
 
       - name: Setup project
         run: make setup-ci
+        env:
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
 
       - name: Check lint
         run: make lint-ci
