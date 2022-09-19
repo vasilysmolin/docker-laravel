@@ -3,6 +3,7 @@
     <file>./app</file>
    <description>psr12 standard</description>
    <exclude-pattern>_ide_*</exclude-pattern>
+    <exclude-pattern>./app/Http/Controllers/Auth</exclude-pattern>
    <arg name="extensions" value="php,inc" />
    <arg name="colors"/>
    <arg value="sp"/>

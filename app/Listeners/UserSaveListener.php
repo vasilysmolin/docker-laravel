@@ -13,8 +13,7 @@ class UserSaveListener
     public function handle(UserSaveEvent $event): void
     {
         $photo = !empty($event->user['photo_400_orig']) ? $event->user['photo_400_orig'] : null;
-        $event->user['external_id'] = $event->user['id'];
-        $user = User::where('external_id', $event->user['id'])->first();
+        $user = User::first();
         if (!empty($user)) {
             $user->fill($event->user);
             $user->update();
