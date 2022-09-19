@@ -17,11 +17,9 @@ class User extends Authenticatable implements HasMedia
     use Notifiable;
 
     protected $fillable = [
-        'first_name',
-        'last_name',
-        'external_id',
-        'external_service',
+        'name',
         'email',
+        'password',
     ];
 
     protected $hidden = [
