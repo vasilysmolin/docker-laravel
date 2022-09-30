@@ -9,14 +9,14 @@ services:
       dockerfile: Dockerfile
       args:
         - UID=${UID}
-        - BACK_DIR=${BB_PHP_WORKDIR}
-    container_name: ${BB_PHP_WORKDIR}
+        - BACK_DIR=${PHP_WORKDIR}
+    container_name: ${PHP_WORKDIR}
     environment:
       PHP_IDE_CONFIG: "serverName=Docker"
     restart: always
-    working_dir: /var/www/${BB_PHP_WORKDIR}
+    working_dir: /var/www/${PHP_WORKDIR}
     volumes:
-      - .:/var/www/${BB_PHP_WORKDIR}
+      - .:/var/www/${PHP_WORKDIR}
     depends_on:
       - database
 
@@ -28,23 +28,23 @@ services:
       args:
         - DOMAIN=${DOMAIN}
         - ENV=${APP_ENV}
-        - BACK_DIR=${BB_PHP_WORKDIR}
-    container_name: ${BB_NGINX_WORKDIR}
+        - BACK_DIR=${PHP_WORKDIR}
+    container_name: ${NGINX_WORKDIR}
     restart: always
     ports:
       - "${PORT_HTTP}:80"
       - "${PORT_HTTPS}:443"
-    working_dir: /var/www/${BB_NGINX_WORKDIR}
+    working_dir: /var/www/${NGINX_WORKDIR}
     volumes:
-      - .:/var/www/${BB_NGINX_WORKDIR}
-      - .:/var/www/${BB_PHP_WORKDIR}
+      - .:/var/www/${NGINX_WORKDIR}
+      - .:/var/www/${PHP_WORKDIR}
     depends_on:
       - php
 
   # Redis -------------------------------------------------
   redis:
     image: redis:6-alpine
-    container_name: ${BB_REDIS_WORKDIR}
+    container_name: ${REDIS_WORKDIR}
     restart: always
     volumes:
       - ./images/redis/redis.conf:/redis.conf
@@ -58,7 +58,7 @@ services:
     build:
       context: images/postgres
       dockerfile: Dockerfile
-    container_name: ${BB_DATABASE_WORKDIR}
+    container_name: ${DATABASE_WORKDIR}
     restart: always
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -68,8 +68,10 @@ services:
     ports:
       - '5432:5432'
 
+  # meilisearch -------------------------------------------------
   meilisearch:
       image: getmeili/meilisearch:v0.23.1
+      container_name: ${MEILISEARCH}
       restart: always
       volumes:
           - ./data.ms:/data.ms
