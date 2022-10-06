@@ -27,7 +27,6 @@ RUN set -xe \
     --with-jpeg \
     --with-webp \
     && docker-php-ext-configure zip \
-    && docker-php-ext-configure zip \
     && docker-php-ext-configure gmp \
     && docker-php-ext-configure pdo_pgsql \
     && docker-php-ext-install -j$(nproc) gd \

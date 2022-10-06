@@ -13,7 +13,7 @@ key-ci:
 	php artisan jwt:secret --force
 
 database-prepare-ci:
-	php artisan migrate:fresh --seed
+	php artisan migrate:fresh --seed --force
 
 lint-ci:
 	composer exec phpcs -v
