@@ -43,6 +43,7 @@ services:
     volumes:
       - .:/var/www/${NGINX_WORKDIR}
       - .:/var/www/${PHP_WORKDIR}
+      - ../var/www/monitoring/nginx-logs:/var/log/nginx/
     depends_on:
       - php
     logging:
