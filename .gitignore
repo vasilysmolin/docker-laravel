@@ -16,3 +16,4 @@ supervisord.log
 supervisord.pid
 /.idea
 /.vscode
+/data.ms
