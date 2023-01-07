@@ -91,7 +91,7 @@ services:
 
   # meilisearch -------------------------------------------------
   meilisearch:
-      image: getmeili/meilisearch:v0.23.1
+      image: getmeili/meilisearch:latest
       container_name: ${MEILISEARCH}
       restart: always
       volumes:
@@ -99,7 +99,7 @@ services:
       environment:
           - MEILI_NO_ANALYTICS=true
           - MEILI_NO_SENTRY=true
-#          - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
+          - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
       ports:
           - "7700:7700"
       logging:
